@@ -41,11 +41,12 @@ import useAsync from "hooks/useAsync";
 import requests from "services/httpService";
 import useFilter from "hooks/useFilter";
 import Loading from "components/preloader/Loading";
+import CustomPagination from "./CustomPagination";
 // import categoryData from "utils/categories";
 const Products = () => {
   const { title, allId, serviceId, handleDeleteMany, handleUpdateMany } =
     useToggleDrawer();
-  // const { data, loading } = useAsync(ProductServices.getAllProducts);
+  const { data, loading } = useAsync(ProductServices.getAllProducts);
   // const data = { products: productData }
   const { t } = useTranslation();
   const {
@@ -63,22 +64,22 @@ const Products = () => {
     // limitData,
     // totalResults,
   } = useContext(SidebarContext);
-  const { data, loading } = useAsync(() =>
-    ProductServices.getAllProducts({
-      page: currentPage,
-      limit: limitData,
-      category: category,
-      title: searchText,
-      price: sortedField,
-    })
-  );
-  console.log("hi:", data)
+  // const { data, loading } = useAsync(() =>
+  //   ProductServices.getAllProducts({
+  //     page: currentPage,
+  //     limit: limitData,
+  //     category: category,
+  //     title: searchText,
+  //     price: sortedField,
+  //   })
+  // );
+  // console.log("hi:", data)
   const {
-    totalResults,
-    resultsPerPage,
-    handleChangePage,
-    dataTable,
-    serviceData,
+    // totalResults,
+    // resultsPerPage,
+    // handleChangePage,
+    // dataTable,
+    // serviceData,
     globalSetting,
     searchRef,
     sortedField,
@@ -88,7 +89,17 @@ const Products = () => {
     limitData,
     // Added By : Govinda 04/23/2023 sidecontext to usefilters
     handleSubmitForAll,
+    totalResults,
+    resultsPerPage,
+    handleChangePage,
+    dataTable,
+    serviceData,
   } = useFilter(data?.products);
+  console.log("serviceData:", serviceData);
+  console.log("currentPage:", currentPage);
+  console.log("resultsPerPage:", resultsPerPage);
+  // Add more logs as needed
+
   // const {  } = useFilter(data?.products);
 
   // const { data: globalSetting } = useAsync(SettingServices.getGlobalSetting);
@@ -153,14 +164,14 @@ const Products = () => {
           >
             <div className="flex justify-start xl:w-1/2  md:w-full">
               {/* <UploadManyTwo
-                title="Products"
-                filename={filename}
-                isDisabled={isDisabled}
-                totalDoc={data?.length}
-                handleSelectFile={handleSelectFile}
-                handleUploadMultiple={handleUploadMultiple}
-                handleRemoveSelectFile={handleRemoveSelectFile}
-              /> */}
+                  title="Products"
+                  filename={filename}
+                  isDisabled={isDisabled}
+                  totalDoc={data?.length}
+                  handleSelectFile={handleSelectFile}
+                  handleUploadMultiple={handleUploadMultiple}
+                  handleRemoveSelectFile={handleRemoveSelectFile}
+                /> */}
             </div>
             <div className="lg:flex  md:flex xl:justify-end xl:w-1/2  md:w-full md:justify-start flex-grow-0">
               <div className="w-full md:w-40 lg:w-40 xl:w-40 mr-3 mb-3 lg:mb-0">
@@ -307,15 +318,24 @@ const Products = () => {
                   />
                 </Table>
                 <TableFooter>
-                  <Pagination
-                    // totalResults={data?.products?.length}
-                    // totalResults={data?.products?.length}
+                  {/* <Pagination
+                    // currentPage={currentPage}
+                    // totalResults={totalResults}
+                    // resultsPerPage={resultsPerPage}
+                    // onChange={handleChangePage}
+                    // startCount={Math.min((currentPage - 1) * resultsPerPage + 1, totalResults)}
+                    // endCount={Math.min(currentPage * resultsPerPage, totalResults)}
+                    // totalResults={totalResults}
+                    label="Product Page Navigation"
+                  /> */}
+                  <CustomPagination
+                    currentPage={currentPage}
                     totalResults={totalResults}
                     resultsPerPage={resultsPerPage}
                     onChange={handleChangePage}
-                    label="Product Page Navigation"
                   />
                 </TableFooter>
+
               </TableContainer>
             ) : (
               <NotFound title="Product" />

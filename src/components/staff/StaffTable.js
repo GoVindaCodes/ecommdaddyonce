@@ -101,6 +101,7 @@ const StaffTable = ({ staffs, lang }) => {
                   staff={staff}
                   option="staff"
                   status={staff.status}
+                // className="text-center ml-1"
                 />
               </TableCell>
               <Status status={staff.status} />
